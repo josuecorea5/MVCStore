@@ -15,5 +15,6 @@ namespace VGStore.Data
         }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Consoles> Consoles { get; set;}
+        public DbSet<Productos> Productos { get; set; }
     }
 }

@@ -20,7 +20,7 @@
                         <label asp-for="Description">Descripción</label>
                     </div>
                     <div class="col-8">
-                        <textarea asp-for="Description" class="form-control" style="resize:none"></textarea>
+                        <textarea asp-for="Description" id="summernote" class="form-control summernote" style="resize:none"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
@@ -42,4 +42,13 @@
     @{
         <partial name="_ValidationScriptsPartial" />
     }
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 250,
+            width: 500,
+            lang: 'es-ES'
+        });
+    });
+</script>
 }

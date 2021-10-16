@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VGStore.Data;
 
 namespace VGStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211015203228_agregarProductosBase")]
+    partial class agregarProductosBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,7 +70,7 @@ namespace VGStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdCategory")
+                    b.Property<int>("IdCategoria")
                         .HasColumnType("int");
 
                     b.Property<string>("Imagen")
@@ -83,7 +85,7 @@ namespace VGStore.Migrations
 
                     b.HasKey("IdProducto");
 
-                    b.HasIndex("IdCategory");
+                    b.HasIndex("IdCategoria");
 
                     b.ToTable("Productos");
                 });
@@ -92,7 +94,7 @@ namespace VGStore.Migrations
                 {
                     b.HasOne("VGStore.Models.Categories", "Categoria")
                         .WithMany()
-                        .HasForeignKey("IdCategory")
+                        .HasForeignKey("IdCategoria")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

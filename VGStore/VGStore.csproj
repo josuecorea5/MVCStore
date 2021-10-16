@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\FontAwesome\" />
+    <Folder Include="wwwroot\imagenes\productos\" />
   </ItemGroup>
 
 </Project>

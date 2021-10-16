@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VGStore.Data;
 
 namespace VGStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211014042137_fistMigration")]
+    partial class fistMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,48 +57,6 @@ namespace VGStore.Migrations
                     b.HasKey("IdConsole");
 
                     b.ToTable("Consoles");
-                });
-
-            modelBuilder.Entity("VGStore.Models.Productos", b =>
-                {
-                    b.Property<int>("IdProducto")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdCategory")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Imagen")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Precio")
-                        .HasColumnType("float");
-
-                    b.HasKey("IdProducto");
-
-                    b.HasIndex("IdCategory");
-
-                    b.ToTable("Productos");
-                });
-
-            modelBuilder.Entity("VGStore.Models.Productos", b =>
-                {
-                    b.HasOne("VGStore.Models.Categories", "Categoria")
-                        .WithMany()
-                        .HasForeignKey("IdCategory")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Categoria");
                 });
 #pragma warning restore 612, 618
         }
