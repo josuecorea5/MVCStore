@@ -1,0 +1,91 @@
+﻿@model VGStore.Models.Productos
+
+<form method="post" asp-action="DeletePost">
+    <input asp-for="IdProducto" hidden />
+
+    <div class="border p-3">
+        <div class="form-group row">
+            <h2 class="text-info pl-3">Borrar Producto</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Nombre"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Nombre" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Precio"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Precio" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="DescripcionCorta"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="DescripcionCorta" class="form-control" style="resize:none" disabled />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Descripcion"></label>
+                    </div>
+                    <div class="col-8">
+                        <textarea asp-for="Descripcion" id="summernote" class="form-control" style="resize:none"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="IdCategory"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Categoria.Name" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="IdConsole"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Consoles.Name" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-danger w-100">Borrar</button>
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-warning w-100"><i class="fas fa-reply"></i> &nbsp;Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                @if (Model.IdProducto != 0)
+                {
+                    <img src="@WC.ProductosPath@Model.Imagen" style="width:100%; border-radius: 5px; border: 1px solid #bbb" />
+                }
+
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @{
+      <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script>$(document).ready(function () {
+        $('#summernote').summernote('disable');
+    });</script>
+}
+
+

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +28,7 @@ namespace VGStore.Controllers
             foreach(var obj in objList)
             {
                 obj.Categoria = _db.Categories.FirstOrDefault(u => u.IdCategory == obj.IdCategory);
+                obj.Consoles = _db.Consoles.FirstOrDefault(u => u.IdConsole == obj.IdConsole);
             }
             return View(objList);
         }
@@ -42,6 +44,11 @@ namespace VGStore.Controllers
                 {
                     Text = i.Name,
                     Value = i.IdCategory.ToString()
+                }),
+                ConsolasSelectList = _db.Consoles.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.IdConsole.ToString()
                 }),
             };
             if (id == null)
@@ -89,10 +96,45 @@ namespace VGStore.Controllers
                 }else
                 {
                     //editar
+                    var objDB = _db.Productos.AsNoTracking().FirstOrDefault(u => u.IdProducto == productosVM.Productos.IdProducto);
+                    if(files.Count > 0)
+                    {
+                        //se actualiza la imagen
+                        string upload = webrootPath + WC.ProductosPath; // nueva ubicacion del archivo
+                        string fileName = Guid.NewGuid().ToString(); //nombre generado al random
+                        string extension = Path.GetExtension(files[0].FileName);//extraer extencion del archivo
+
+                        var oldFile = Path.Combine(upload, objDB.Imagen);
+                        if(System.IO.File.Exists(oldFile))
+                        {
+                            System.IO.File.Delete(oldFile);
+                        }
+
+                        using (var filestream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                        {
+                            files[0].CopyTo(filestream);
+                        }
+
+                        productosVM.Productos.Imagen = fileName + extension;
+                    }else
+                    {
+                        productosVM.Productos.Imagen = objDB.Imagen;
+                    }
+                    _db.Productos.Update(productosVM.Productos);
                 }
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            productosVM.CategoriasSelectList = _db.Categories.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.IdCategory.ToString()
+            });
+            productosVM.ConsolasSelectList = _db.Consoles.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.IdConsole.ToString()
+            });
             return View();
         }
 
@@ -104,21 +146,35 @@ namespace VGStore.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Categories.Find(id);
-            if (obj == null)
+            //eager loading
+            Productos producto = _db.Productos.Include(u => u.Categoria).Include(u => u.Consoles).FirstOrDefault(u => u.IdProducto == id);
+            //Productos producto = _db.Productos.Find(id);
+            //producto.Categoria = _db.Categories.Find(producto.IdCategory);
+            if (producto == null)
             {
                 return NotFound();
             }
-            return View(obj);
+            return View(producto);
         }
 
         //POST - DELETE
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? IdCategory)
+        public IActionResult DeletePost(int? IdProducto)
         {
-            var obj = _db.Categories.Find(IdCategory);
-            _db.Categories.Remove(obj);
+            var obj = _db.Productos.Find(IdProducto);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+            string upload = _webHostEnvironment.WebRootPath +  WC.ProductosPath; // ubicacion del archivo
+            var oldFile = Path.Combine(upload, obj.Imagen);
+            if (System.IO.File.Exists(oldFile))
+            {
+                System.IO.File.Delete(oldFile);
+            }
+
+            _db.Productos.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -13,6 +13,7 @@ namespace VGStore.Models
         public int IdProducto { get; set; }
         [Required]
         public string Nombre { get; set; }
+        public string DescripcionCorta { get; set; }
         [Required]
         public string Descripcion { get; set; }
         [Required]
@@ -23,5 +24,9 @@ namespace VGStore.Models
         public int IdCategory { get; set; }
         [ForeignKey("IdCategory")]
         public virtual Categories Categoria { get; set; }
+        [Display(Name = "Consola")]
+        public int IdConsole { get; set; }
+        [ForeignKey("IdConsole")]
+        public virtual Consoles Consoles { get; set; }
     }
 }

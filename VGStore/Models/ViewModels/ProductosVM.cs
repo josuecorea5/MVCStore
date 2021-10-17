@@ -10,5 +10,6 @@ namespace VGStore.Models.ViewModels
     {
         public Productos Productos { get; set; }
         public IEnumerable<SelectListItem> CategoriasSelectList { get; set; }
+        public IEnumerable<SelectListItem> ConsolasSelectList { get; set; }
     }
 }

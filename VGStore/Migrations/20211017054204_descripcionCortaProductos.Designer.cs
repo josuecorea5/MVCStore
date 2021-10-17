@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VGStore.Data;
 
 namespace VGStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211017054204_descripcionCortaProductos")]
+    partial class descripcionCortaProductos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +76,6 @@ namespace VGStore.Migrations
                     b.Property<int>("IdCategory")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdConsole")
-                        .HasColumnType("int");
-
                     b.Property<string>("Imagen")
                         .HasColumnType("nvarchar(max)");
 
@@ -91,8 +90,6 @@ namespace VGStore.Migrations
 
                     b.HasIndex("IdCategory");
 
-                    b.HasIndex("IdConsole");
-
                     b.ToTable("Productos");
                 });
 
@@ -104,15 +101,7 @@ namespace VGStore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VGStore.Models.Consoles", "Consoles")
-                        .WithMany()
-                        .HasForeignKey("IdConsole")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Categoria");
-
-                    b.Navigation("Consoles");
                 });
 #pragma warning restore 612, 618
         }

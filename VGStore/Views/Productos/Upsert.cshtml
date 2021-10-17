@@ -36,6 +36,15 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-4">
+                        <label asp-for="Productos.DescripcionCorta"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Productos.DescripcionCorta" class="form-control" style="resize:none" />
+                        <span asp-validation-for="Productos.DescripcionCorta" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
                         <label asp-for="Productos.Descripcion"></label>
                     </div>
                     <div class="col-8">
@@ -48,7 +57,7 @@
                         <label asp-for="Productos.Imagen"></label>
                     </div>
                     <div class="col-8">
-                        <input type="file" name="files" id="uploadBox" class="form-control" />
+                        <input type="file" name="files" id="uploadBox" class="form-control p-1" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -63,16 +72,27 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Productos.IdConsole"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="Productos.IdConsole" asp-items="Model.ConsolasSelectList" class="form-control">
+                            <option disabled selected>--Seleccionar Consola--</option>
+                        </select>
+                        <span asp-validation-for="Productos.IdConsole" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <div class="col-8 offset-4 row">
                         <div class="col">
                             @if (Model.Productos.IdProducto != 0)
                             {
                                 //editar
-                                <input type="submit" class="btn btn-info w-100" value="Editar" /> }
-                            else
-                            {
-                                //crear
-                                <input type="submit" onclick="return validateInput()" class="btn btn-info w-100" value="Crear" />}
+                <input type="submit" class="btn btn-info w-100" value="Editar" /> }
+            else
+            {
+                //crear
+            <input type="submit" onclick="return validateInput()" class="btn btn-info w-100" value="Crear" />}
 
                         </div>
                         <div class="col">
@@ -82,7 +102,11 @@
                 </div>
             </div>
             <div class="col-4">
-                <img src="@WC.ProductosPath@Model.Productos.Imagen" style="width:100%; border-radius: 5px; border: 1px solid #bbb" />
+                @if (Model.Productos.IdProducto != 0)
+                {
+                    <img src="@WC.ProductosPath@Model.Productos.Imagen" style="width:100%; border-radius: 5px; border: 1px solid #bbb" />
+                }
+
             </div>
         </div>
     </div>
